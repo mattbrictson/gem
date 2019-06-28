@@ -95,6 +95,8 @@ def main
   replace_in_file "test/test_helper.rb",
                   'require "example"' => %Q(require "#{as_path(gem_name)}")
 
+  git "rm", "rename_template.rb"
+
   puts <<~MESSAGE
 
     All set!
