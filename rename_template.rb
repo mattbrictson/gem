@@ -1,7 +1,14 @@
 #!/usr/bin/env ruby
 
+require "bundler/inline"
 require "fileutils"
+require "io/console"
 require "open3"
+
+gemfile do
+  source "https://rubygems.org"
+  gem "octokit", "~> 4.14"
+end
 
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
@@ -14,6 +21,22 @@ def main
   author_name = ask("Author name?", default: git_meta[:user_name])
   github_repo = ask("GitHub repository?", default: git_meta[:origin_repo_path])
   exe = ask_yes_or_no("Include an executable (CLI) in this gem?", default: "N")
+
+  if ask_yes_or_no("Create GitHub labels?", default: "Y")
+    puts "Your GitHub credentials will NOT be saved."
+    login = ask("GitHub username?", default: github_repo.split("/").first)
+    password = ask("GitHub password?", echo: false)
+    client = authenticate_github(login, password)
+    create_labels(
+      client,
+      github_repo,
+      ["⚠️ Breaking", "d12d1b", "Introduces a backwards-incompatible change"],
+      ["🐛 Bug Fix", "c0fc80", "Fixes a bug"],
+      ["📚 Docs", "bfdadc", "Improves documentation"],
+      ["✨ Feature", "ba1ecc", "Adds a new feature"],
+      ["🏠 Housekeeping", "ccccff", "Non-user facing cleanup and maintenance"]
+    )
+  end
 
   git "mv", ".github/main.workflow.dist", ".github/main.workflow"
 
@@ -144,11 +167,15 @@ def remove_line(file, pattern)
   git "add", file
 end
 
-def ask(question, default: nil)
+def ask(question, default: nil, echo: true)
   prompt = "#{question} "
   prompt << "[#{default}] " unless default.nil?
   print prompt
-  answer = $stdin.gets.chomp
+  answer = if echo
+             $stdin.gets.chomp
+           else
+             $stdin.noecho(&:gets).tap { $stdout.print "\n" }.chomp
+           end
   answer.to_s.strip.empty? ? default : answer
 end
 
@@ -211,6 +238,52 @@ def reindent_module(path)
 
   IO.write(path, contents)
   git "add", path
+end
+
+def authenticate_github(login, password)
+  octokit = Octokit::Client.new(login: login, password: password, netrc: false)
+  octokit.user
+  GithubClient.new(octokit)
+rescue Octokit::OneTimePasswordRequired
+  token = ask("2FA token?")
+  GithubClient.new(octokit, otp_token: token)
+end
+
+def create_labels(client, github_repo, *labels)
+  labels.each do |name, color, description|
+    client.add_label(github_repo, name, color, description)
+  end
+
+  puts "Created labels: #{labels.map(&:first).join(', ')}"
+end
+
+class GithubClient
+  def initialize(octokit, otp_token: nil)
+    @octokit = octokit
+    @otp_token = otp_token
+  end
+
+  def add_label(repo, name, color, description)
+    octokit.add_label(
+      repo,
+      name,
+      color,
+      auth_options.merge(
+        description: description,
+        accept: "application/vnd.github.symmetra-preview+json"
+      )
+    )
+  end
+
+  private
+
+  attr_reader :octokit, :otp_token
+
+  def auth_options
+    return {} if otp_token.nil?
+
+    { headers: { "X-GitHub-OTP" => otp_token } }
+  end
 end
 
 main if $PROGRAM_NAME == __FILE__
