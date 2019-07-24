@@ -17,6 +17,7 @@ def main
   git_meta = read_git_data
 
   gem_name = ask("Gem name?", default: git_meta[:origin_repo_name])
+  gem_summary = ask("Gem summary (< 60 chars)?", default: "")
   author_email = ask("Author email?", default: git_meta[:user_email])
   author_name = ask("Author name?", default: git_meta[:user_name])
   github_repo = ask("GitHub repository?", default: git_meta[:origin_repo_path])
@@ -93,7 +94,8 @@ def main
                   '"owner@example.com"' => author_email.inspect,
                   '"example"' => gem_name.inspect,
                   "example/version" => "#{as_path(gem_name)}/version",
-                  "Example::VERSION" => "#{as_module(gem_name)}::VERSION"
+                  "Example::VERSION" => "#{as_module(gem_name)}::VERSION",
+                  /summary\s*=\s*("")/ => gem_summary.inspect
 
   git "mv", "example.gemspec", "#{gem_name}.gemspec"
 
