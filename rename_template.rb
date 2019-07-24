@@ -24,7 +24,10 @@ def main
   exe = ask_yes_or_no("Include an executable (CLI) in this gem?", default: "N")
 
   if ask_yes_or_no("Create GitHub labels?", default: "Y")
-    puts "Your GitHub credentials will NOT be saved."
+    puts
+    puts "I need to ask for your GitHub credentials in order to create labels."
+    puts "Don't worry, your GitHub credentials will NOT be saved."
+    puts
     login = ask("GitHub username?", default: github_repo.split("/").first)
     password = ask("GitHub password?", echo: false)
     client = authenticate_github(login, password)
