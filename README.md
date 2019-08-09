@@ -6,7 +6,7 @@ This is a GitHub template for creating Ruby gems. Press [**Use this template**](
 $ ruby rename_template.rb
 ```
 
-This template is based on `bundler gem` with some notable improvements:
+This template is based on `bundle gem` with some notable improvements:
 
 - Travis CI _and_ Circle CI configuration
 - Minitest, with minitest-reporters for nicely formatted test output
