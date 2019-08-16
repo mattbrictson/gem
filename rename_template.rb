@@ -42,7 +42,7 @@ def main
     )
   end
 
-  git "mv", ".github/main.workflow.dist", ".github/main.workflow"
+  git "mv", ".github/workflows/push.yml.dist", ".github/workflows/push.yml"
 
   FileUtils.mkdir_p "lib/#{as_path(gem_name)}"
   FileUtils.mkdir_p "test/#{as_path(gem_name)}"
