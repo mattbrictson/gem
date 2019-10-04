@@ -2,7 +2,7 @@ version: 2
 jobs:
   rubocop:
     docker:
-      - image: circleci/ruby:2.6.4
+      - image: circleci/ruby:2.6.5
     steps:
       - checkout
       - run: gem install bundler -v 2.0.2
@@ -11,7 +11,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/ruby:2.6.4
+      - image: circleci/ruby:2.6.5
     steps:
       - checkout
       - run: gem install bundler -v 2.0.2
