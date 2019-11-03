@@ -1,21 +1,28 @@
-version: 2
+version: 2.1
+
+executors:
+  ruby:
+    docker:
+      - image: circleci/ruby:2.6.5
+
+commands:
+  bundle_install:
+    steps:
+      - run: gem install bundler -v 2.0.2
+      - run: bundle install --jobs=4 --retry=3
+
 jobs:
   rubocop:
-    docker:
-      - image: circleci/ruby:2.6.5
+    executor: ruby
     steps:
       - checkout
-      - run: gem install bundler -v 2.0.2
-      - run: bundle install --jobs=4 --retry=3
+      - bundle_install
       - run: bundle exec rubocop
-
   test:
-    docker:
-      - image: circleci/ruby:2.6.5
+    executor: ruby
     steps:
       - checkout
-      - run: gem install bundler -v 2.0.2
-      - run: bundle install --jobs=4 --retry=3
+      - bundle_install
       - run: bundle exec rake test TESTOPTS="--ci-dir=./reports"
       - store_test_results:
           path: ./reports
