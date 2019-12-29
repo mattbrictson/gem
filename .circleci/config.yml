@@ -3,12 +3,12 @@ version: 2.1
 executors:
   ruby:
     docker:
-      - image: circleci/ruby:2.6.5
+      - image: circleci/ruby:2.7.0
 
 commands:
   bundle_install:
     steps:
-      - run: gem install bundler -v 2.1.0
+      - run: gem install bundler -v 2.1.2
       - run: bundle install --jobs=4 --retry=3
 
 jobs:
