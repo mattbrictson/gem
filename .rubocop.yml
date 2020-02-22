@@ -10,12 +10,23 @@ AllCops:
     - "tmp/**/*"
     - "vendor/**/*"
 
+Layout/HashAlignment:
+  EnforcedColonStyle:
+    - table
+    - key
+  EnforcedHashRocketStyle:
+    - table
+    - key
+
 Layout/LineLength:
   Exclude:
     - "*.gemspec"
 
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+
 Metrics/AbcSize:
-  Max: 16
+  Max: 20
   Exclude:
     - "test/**/*"
 
@@ -29,22 +40,12 @@ Metrics/ClassLength:
     - "test/**/*"
 
 Metrics/MethodLength:
+  Max: 18
   Exclude:
     - "test/**/*"
 
 Metrics/ParameterLists:
   Max: 6
-
-Layout/HashAlignment:
-  EnforcedColonStyle:
-    - table
-    - key
-  EnforcedHashRocketStyle:
-    - table
-    - key
-
-Layout/SpaceAroundEqualsInParameterDefault:
-  EnforcedStyle: no_space
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
@@ -70,8 +71,20 @@ Style/EmptyMethod:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
 Style/HashSyntax:
   EnforcedStyle: ruby19
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/NumericPredicate:
+  Enabled: false
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
