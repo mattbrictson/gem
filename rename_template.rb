@@ -10,9 +10,7 @@ gemfile do
   gem "octokit", "~> 4.14"
 end
 
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/MethodLength
-def main
+def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   assert_git_repo!
   git_meta = read_git_data
 
@@ -136,8 +134,6 @@ def main
 
   MESSAGE
 end
-# rubocop:enable Metrics/AbcSize
-# rubocop:enable Metrics/MethodLength
 
 def assert_git_repo!
   return if File.file?(".git/config")
