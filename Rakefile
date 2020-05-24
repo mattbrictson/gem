@@ -31,12 +31,9 @@ namespace :bump do
     lowest_minor = RubyVersions.lowest_supported_minor
     latest = RubyVersions.latest
 
-    replace_in_file "example.gemspec",
-                    /ruby_version = ">= (.*)"/ => lowest
-
+    replace_in_file "example.gemspec", /ruby_version = ">= (.*)"/ => lowest
     replace_in_file ".rubocop.yml", /TargetRubyVersion: (.*)/ => lowest_minor
-    replace_in_file ".circleci/config.yml",
-                    %r{circleci/ruby:([\d\.]+)} => latest
+    replace_in_file ".circleci/config.yml", %r{circleci/ruby:([\d\.]+)} => latest
 
     travis = YAML.safe_load(open(".travis.yml"))
     travis["rvm"] = RubyVersions.latest_supported_patches + ["ruby-head"]
@@ -87,9 +84,7 @@ module RubyVersions
 
     def versions
       @_versions ||= begin
-        yaml = URI.open(
-          "https://raw.githubusercontent.com/ruby/www.ruby-lang.org/master/_data/downloads.yml"
-        )
+        yaml = URI.open("https://raw.githubusercontent.com/ruby/www.ruby-lang.org/master/_data/downloads.yml")
         YAML.safe_load(yaml, symbolize_names: true)
       end
     end
