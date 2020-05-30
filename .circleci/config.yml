@@ -17,7 +17,7 @@ commands:
           command: |
             gem install bundler -v 2.1.4 --conservative --no-document
             bundle config --local path vendor/bundle
-            bundle check || bundle install --jobs=4 --retry=3 --clean
+            bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
       - save_cache:
           paths:
             - ./vendor/bundle
