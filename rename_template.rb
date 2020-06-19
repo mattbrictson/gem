@@ -70,6 +70,9 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   replace_in_file ".circlei/config.yml",
                   "- main" => "- #{default_branch}"
 
+  replace_in_file ".github/workflows/push.yml",
+                  "- main" => "- #{default_branch}"
+
   replace_in_file ".travis.yml",
                   "- main" => "- #{default_branch}"
 
