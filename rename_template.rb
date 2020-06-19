@@ -14,6 +14,7 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   assert_git_repo!
   git_meta = read_git_data
 
+  default_branch = git_meta[:default_branch] || "main"
   gem_name = ask("Gem name?", default: git_meta[:origin_repo_name])
   gem_summary = ask("Gem summary (< 60 chars)?", default: "")
   author_email = ask("Author email?", default: git_meta[:user_email])
@@ -66,6 +67,12 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     remove_line "lib/example.rb", /autoload :CLI/
   end
 
+  replace_in_file ".circlei/config.yml",
+                  "- main" => "- #{default_branch}"
+
+  replace_in_file ".travis.yml",
+                  "- main" => "- #{default_branch}"
+
   replace_in_file "LICENSE.txt",
                   "Example Owner" => author_name
 
@@ -78,6 +85,8 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
                   'require "example"' => %Q(require "#{as_path(gem_name)}"),
                   "example" => gem_name,
                   "replace_with_gem_name" => gem_name,
+                  "tree/main.svg" => "tree/#{default_branch}.svg",
+                  "branch=main" => "branch=#{default_branch}",
                   /\A.*<!-- END FRONT MATTER -->\n+/m => ""
 
   replace_in_file "CHANGELOG.md",
@@ -194,6 +203,7 @@ def read_git_data
   origin_repo_path = origin_url[%r{[:/]([^/]+/[^/]+)(?:\.git)$}, 1]
 
   {
+    default_branch: git("rev-parse --abbrev-ref HEAD").chomp,
     origin_repo_name: origin_repo_path.split("/").last,
     origin_repo_path: origin_repo_path,
     user_email: git("config", "user.email").chomp,
