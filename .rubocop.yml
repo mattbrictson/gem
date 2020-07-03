@@ -5,13 +5,11 @@ require:
 AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
+  NewCops: enable
   TargetRubyVersion: 2.5
   Exclude:
     - "tmp/**/*"
     - "vendor/**/*"
-
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: true
 
 Layout/HashAlignment:
   EnforcedColonStyle:
@@ -21,26 +19,8 @@ Layout/HashAlignment:
     - table
     - key
 
-Layout/LineLength:
-  Max: 120
-
 Layout/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
-
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
 
 Metrics/AbcSize:
   Max: 20
@@ -85,41 +65,11 @@ Style/DoubleNegation:
 Style/EmptyMethod:
   Enabled: false
 
-Style/ExponentialNotation:
-  Enabled: true
-
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashSyntax:
-  EnforcedStyle: ruby19
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
 
 Style/NumericPredicate:
   Enabled: false
 
-Style/RedundantFetchBlock:
-  Enabled: true
-
-Style/RedundantRegexpCharacterClass:
-  Enabled: true
-
-Style/RedundantRegexpEscape:
-  Enabled: true
-
-Style/SlicingWithRange:
-  Enabled: true
-
 Style/StringLiterals:
   EnforcedStyle: double_quotes
-
-Style/TrivialAccessors:
-  AllowPredicates: true
