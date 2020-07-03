@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 gemspec
 
-gem "bundler", "~> 2.0"
 gem "minitest", "~> 5.11"
 gem "minitest-ci", "~> 3.4"
 gem "minitest-reporters", "~> 1.3"
