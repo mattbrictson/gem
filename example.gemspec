@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   # Specify which files should be added to the gem when it is released.
   spec.files = `git ls-files -z exe lib LICENSE.txt README.md`.split("\x0")
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 end
