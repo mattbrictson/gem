@@ -31,7 +31,7 @@ namespace :bump do
     lowest_minor = RubyVersions.lowest_supported_minor
     latest = RubyVersions.latest
 
-    replace_in_file "example.gemspec", /ruby_version = ">= (.*)"/ => lowest
+    replace_in_file "example.gemspec", /ruby_version = .*">= (.*)"/ => lowest
     replace_in_file ".rubocop.yml", /TargetRubyVersion: (.*)/ => lowest_minor
     replace_in_file ".circleci/config.yml", %r{circleci/ruby:([\d.]+)} => latest
 
