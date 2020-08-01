@@ -11,7 +11,7 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - bundle-v1-{{ arch }}
+            - bundle-v1-ruby2.7.1-{{ arch }}
       - run:
           name: Install Ruby Dependencies
           command: |
@@ -21,7 +21,7 @@ commands:
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: bundle-v1-{{ arch }}-{{ checksum "Gemfile.lock" }}
+          key: bundle-v1-ruby2.7.1-{{ arch }}-{{ checksum "Gemfile.lock" }}
 
 jobs:
   rubocop:
