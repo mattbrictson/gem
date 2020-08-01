@@ -223,7 +223,7 @@ end
 def as_module(gem_name)
   parts = gem_name.split("-")
   parts.map do |part|
-    part.gsub(/^[a-z]|_[a-z]/) { |str| str.chars.last.upcase }
+    part.gsub(/^[a-z]|_[a-z]/) { |str| str[-1].upcase }
   end.join("::")
 end
 
