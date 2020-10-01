@@ -32,6 +32,7 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     create_labels(
       client,
       github_repo,
+      ["automerge", "fbca04", "Automatically merge PR once all required checks pass"],
       ["⚠️ Breaking", "d12d1b", "Introduces a backwards-incompatible change"],
       ["🐛 Bug Fix", "c0fc80", "Fixes a bug"],
       ["📚 Docs", "bfdadc", "Improves documentation"],
