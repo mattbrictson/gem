@@ -23,7 +23,7 @@ namespace :bump do
     version = Gem.latest_version_for("bundler").to_s
     replace_in_file ".circleci/config.yml", /bundler -v (\S+)/ => version
     replace_in_file ".travis.yml", /bundler -v (\S+)/ => version
-    replace_in_file "Gemfile.lock", /^BUNDLED WITH\n\s+([\d.]+)$/ => version
+    replace_in_file "Gemfile.lock", /^BUNDLED WITH\n\s+(\d\S+)$/ => version
   end
 
   task :ruby do
