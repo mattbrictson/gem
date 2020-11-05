@@ -22,7 +22,7 @@ This template is based on `bundle gem` with some notable improvements:
 # example
 
 [![Gem Version](https://badge.fury.io/rb/replace_with_gem_name.svg)](https://rubygems.org/gems/replace_with_gem_name)
-[![Travis](https://img.shields.io/travis/mattbrictson/gem.svg?label=travis)](https://travis-ci.org/mattbrictson/gem)
+[![Travis](https://img.shields.io/travis/com/mattbrictson/gem.svg?label=travis)](https://travis-ci.com/github/mattbrictson/gem)
 [![Circle](https://circleci.com/gh/mattbrictson/gem/tree/main.svg?style=shield)](https://app.circleci.com/pipelines/github/mattbrictson/gem?branch=main)
 [![Code Climate](https://codeclimate.com/github/mattbrictson/gem/badges/gpa.svg)](https://codeclimate.com/github/mattbrictson/gem)
 
