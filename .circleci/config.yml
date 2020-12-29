@@ -3,7 +3,7 @@ version: 2.1
 executors:
   ruby:
     docker:
-      - image: cimg/ruby:2.7.2
+      - image: cimg/ruby:3.0.0
 
 commands:
   bundle_install:
@@ -11,17 +11,17 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - bundle-v1-ruby2.7.2-{{ arch }}
+            - bundle-v1-ruby3.0.0-{{ arch }}
       - run:
           name: Install Ruby Dependencies
           command: |
-            gem install bundler -v 2.1.4 --conservative --no-document
+            gem install bundler -v 2.2.3 --conservative --no-document
             bundle config --local path vendor/bundle
             bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: bundle-v1-ruby2.7.2-{{ arch }}-{{ checksum "Gemfile.lock" }}
+          key: bundle-v1-ruby3.0.0-{{ arch }}-{{ checksum "Gemfile.lock" }}
 
 jobs:
   rubocop:
