@@ -1,17 +1,26 @@
 version: 2.1
-
 executors:
   ruby:
+    parameters:
+      version:
+        description: "Ruby version number"
+        default: "3.0.0"
+        type: string
     docker:
-      - image: cimg/ruby:3.0.0
+      - image: cimg/ruby:<< parameters.version >>
 
 commands:
   bundle_install:
     description: Install Ruby dependencies with Bundler
+    parameters:
+      version:
+        description: "Ruby version number"
+        default: "3.0.0"
+        type: string
     steps:
       - restore_cache:
           keys:
-            - bundle-v1-ruby3.0.0-{{ arch }}
+            - bundle-v1-{{ arch }}-<< parameters.version >>
       - run:
           name: Install Ruby Dependencies
           command: |
@@ -21,7 +30,7 @@ commands:
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: bundle-v1-ruby3.0.0-{{ arch }}-{{ checksum "Gemfile.lock" }}
+          key: bundle-v1-{{ arch }}-<< parameters.version >>-{{ checksum "Gemfile.lock" }}
 
 jobs:
   rubocop:
@@ -30,11 +39,20 @@ jobs:
       - checkout
       - bundle_install
       - run: bundle exec rubocop
+
   test:
-    executor: ruby
+    parameters:
+      version:
+        description: "Ruby version number"
+        default: "3.0.0"
+        type: string
+    executor:
+      name: ruby
+      version: << parameters.version >>
     steps:
       - checkout
-      - bundle_install
+      - bundle_install:
+          version: << parameters.version >>
       - run: bundle exec rake test TESTOPTS="--ci-dir=./reports"
       - store_test_results:
           path: ./reports
@@ -44,11 +62,17 @@ workflows:
   commit-workflow:
     jobs:
       - rubocop
-      - test
+      - test:
+          matrix:
+            parameters:
+              version: ["2.5.8", "2.6.6", "2.7.2", "3.0.0"]
   cron-workflow:
     jobs:
       - rubocop
-      - test
+      - test:
+          matrix:
+            parameters:
+              version: ["2.5.8", "2.6.6", "2.7.2", "3.0.0"]
     triggers:
       - schedule:
           cron: "0 13 * * 6"
