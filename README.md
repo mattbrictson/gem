@@ -8,7 +8,7 @@ $ ruby rename_template.rb
 
 This template is based on `bundle gem` with some notable improvements:
 
-- Travis CI _and_ Circle CI configuration
+- Circle CI configuration
 - Minitest, with minitest-reporters for nicely formatted test output
 - Rubocop with a good set of configuration
 - [release-drafter](https://github.com/apps/release-drafter) GitHub Action for automating release notes
@@ -22,7 +22,6 @@ This template is based on `bundle gem` with some notable improvements:
 # example
 
 [![Gem Version](https://badge.fury.io/rb/replace_with_gem_name.svg)](https://rubygems.org/gems/replace_with_gem_name)
-[![Travis](https://img.shields.io/travis/com/mattbrictson/gem.svg?label=travis)](https://travis-ci.com/github/mattbrictson/gem)
 [![Circle](https://circleci.com/gh/mattbrictson/gem/tree/main.svg?style=shield)](https://app.circleci.com/pipelines/github/mattbrictson/gem?branch=main)
 [![Code Climate](https://codeclimate.com/github/mattbrictson/gem/badges/gpa.svg)](https://codeclimate.com/github/mattbrictson/gem)
 

@@ -53,7 +53,6 @@ namespace :bump do
   task :bundler do
     version = Gem.latest_version_for("bundler").to_s
     replace_in_file ".circleci/config.yml", /bundler -v (\S+)/ => version
-    replace_in_file ".travis.yml", /bundler -v (\S+)/ => version
     replace_in_file "Gemfile.lock", /^BUNDLED WITH\n\s+(\d\S+)$/ => version
   end
 
@@ -61,15 +60,12 @@ namespace :bump do
     lowest = RubyVersions.lowest_supported
     lowest_minor = RubyVersions.lowest_supported_minor
     latest = RubyVersions.latest
+    latest_patches = RubyVersions.latest_supported_patches
 
     replace_in_file "example.gemspec", /ruby_version = .*">= (.*)"/ => lowest
     replace_in_file ".rubocop.yml", /TargetRubyVersion: (.*)/ => lowest_minor
-    replace_in_file ".circleci/config.yml", %r{cimg/ruby:([\d.]+)} => latest
-    replace_in_file ".circleci/config.yml", /bundle-.*ruby([\d.]+)-/ => latest
-
-    travis = YAML.safe_load(open(".travis.yml"))
-    travis["rvm"] = RubyVersions.latest_supported_patches + ["ruby-head"]
-    IO.write(".travis.yml", YAML.dump(travis))
+    replace_in_file ".circleci/config.yml", /default: "([\d.]+)"/ => latest
+    replace_in_file ".circleci/config.yml", /version: (\[.+\])/ => latest_patches.inspect
   end
 
   task :year do
