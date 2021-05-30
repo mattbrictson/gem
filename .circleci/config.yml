@@ -24,7 +24,7 @@ commands:
       - run:
           name: Install Ruby Dependencies
           command: |
-            gem install bundler -v 2.2.16 --conservative --no-document
+            gem install bundler -v 2.2.18 --conservative --no-document
             bundle config --local path vendor/bundle
             bundle check || (bundle install --jobs=4 --retry=3 && bundle clean)
       - save_cache:
