@@ -45,9 +45,22 @@ $ gem install example
 require "example"
 ```
 
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run `bundle exec rake install`.
+
+### Releasing a new version
+
+* install gem-release https://github.com/svenfuchs/gem-release
+* run `gem bump --version patch` if patching (otherwise switch "patch" out for "minor" or "major")
+* run `gem tag 1.x.x` replacing the "x" characters with appropriate values
+* run `git push --tags origin` to push the tags up to Github
+
 ## Support
 
-If you want to report a bug, or have ideas, feedback or questions about the gem, [let me know via GitHub issues](https://github.com/CompanyCam/gem/issues/new) and I will do my best to provide a helpful answer. Happy hacking!
+If you want to report a bug, or have ideas, feedback or questions about the gem, [let me know via GitHub issues](https://github.com/CompanyCam/gemplate/issues/new) and I will do my best to provide a helpful answer. Happy hacking!
 
 ## License
 
