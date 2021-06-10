@@ -1,12 +1,12 @@
 source "https://rubygems.org"
-gemspec
 
-gem "minitest", "~> 5.11"
-gem "minitest-ci", "~> 3.4"
-gem "minitest-reporters", "~> 1.3"
-gem "rake", "~> 13.0"
-gem "rubocop", "1.16.0"
-gem "rubocop-minitest", "0.12.1"
-gem "rubocop-packaging", "0.5.1"
-gem "rubocop-performance", "1.11.3"
-gem "rubocop-rake", "0.5.1"
+rails_version = ENV["RAILS_VERSION"]
+gem "activerecord", rails_version
+
+sqlite_version = ENV["SQLITE_VERSION"]
+
+unless sqlite_version.nil?
+  gem "sqlite3", sqlite_version
+end
+
+gemspec

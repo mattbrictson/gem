@@ -51,14 +51,14 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 
   if exe
     replace_in_file "exe/example",
-                    "example" => as_path(gem_name),
-                    "Example" => as_module(gem_name)
+      "example" => as_path(gem_name),
+      "Example" => as_module(gem_name)
 
     git "mv", "exe/example", "exe/#{gem_name}"
     ensure_executable "exe/#{gem_name}"
 
     replace_in_file "lib/example/cli.rb",
-                    "Example" => as_module(gem_name)
+      "Example" => as_module(gem_name)
 
     git "mv", "lib/example/cli.rb", "lib/#{as_path(gem_name)}/cli.rb"
     reindent_module "lib/#{as_path(gem_name)}/cli.rb"
@@ -68,59 +68,59 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   end
 
   replace_in_file "LICENSE.txt",
-                  "Example Owner" => author_name
+    "Example Owner" => author_name
 
   replace_in_file "Rakefile",
-                  "example.gemspec" => "#{gem_name}.gemspec",
-                  "mattbrictson/gem" => github_repo
+    "example.gemspec" => "#{gem_name}.gemspec",
+    "mattbrictson/gem" => github_repo
 
   replace_in_file "README.md",
-                  "mattbrictson/gem" => github_repo,
-                  'require "example"' => %Q(require "#{as_path(gem_name)}"),
-                  "example" => gem_name,
-                  "replace_with_gem_name" => gem_name,
-                  /\A.*<!-- END FRONT MATTER -->\n+/m => ""
+    "mattbrictson/gem" => github_repo,
+    'require "example"' => %(require "#{as_path(gem_name)}"),
+    "example" => gem_name,
+    "replace_with_gem_name" => gem_name,
+    /\A.*<!-- END FRONT MATTER -->\n+/m => ""
 
   replace_in_file "CHANGELOG.md",
-                  "mattbrictson/gem" => github_repo
+    "mattbrictson/gem" => github_repo
 
   replace_in_file "CODE_OF_CONDUCT.md",
-                  "owner@example.com" => author_email
+    "owner@example.com" => author_email
 
   replace_in_file "bin/console",
-                  'require "example"' => %Q(require "#{as_path(gem_name)}")
+    'require "example"' => %(require "#{as_path(gem_name)}")
 
   replace_in_file "example.gemspec",
-                  "mattbrictson/gem" => github_repo,
-                  '"Example Owner"' => author_name.inspect,
-                  '"owner@example.com"' => author_email.inspect,
-                  '"example"' => gem_name.inspect,
-                  "example/version" => "#{as_path(gem_name)}/version",
-                  "Example::VERSION" => "#{as_module(gem_name)}::VERSION",
-                  /summary\s*=\s*("")/ => gem_summary.inspect
+    "mattbrictson/gem" => github_repo,
+    '"Example Owner"' => author_name.inspect,
+    '"owner@example.com"' => author_email.inspect,
+    '"example"' => gem_name.inspect,
+    "example/version" => "#{as_path(gem_name)}/version",
+    "Example::VERSION" => "#{as_module(gem_name)}::VERSION",
+    /summary\s*=\s*("")/ => gem_summary.inspect
 
   git "mv", "example.gemspec", "#{gem_name}.gemspec"
 
   replace_in_file "lib/example.rb",
-                  "example" => as_path(gem_name),
-                  "Example" => as_module(gem_name)
+    "example" => as_path(gem_name),
+    "Example" => as_module(gem_name)
 
   git "mv", "lib/example.rb", "lib/#{as_path(gem_name)}.rb"
   reindent_module "lib/#{as_path(gem_name)}.rb"
 
   replace_in_file "lib/example/version.rb",
-                  "Example" => as_module(gem_name)
+    "Example" => as_module(gem_name)
 
   git "mv", "lib/example/version.rb", "lib/#{as_path(gem_name)}/version.rb"
   reindent_module "lib/#{as_path(gem_name)}/version.rb"
 
   replace_in_file "test/example_test.rb",
-                  "Example" => as_module(gem_name)
+    "Example" => as_module(gem_name)
 
   git "mv", "test/example_test.rb", "test/#{as_path(gem_name)}_test.rb"
 
   replace_in_file "test/test_helper.rb",
-                  'require "example"' => %Q(require "#{as_path(gem_name)}")
+    'require "example"' => %(require "#{as_path(gem_name)}")
 
   git "rm", "rename_template.rb"
 
@@ -155,9 +155,9 @@ def ensure_executable(path)
 end
 
 def sh!(*args)
-  puts ">>>> #{args.join(' ')}"
+  puts ">>>> #{args.join(" ")}"
   stdout, status = Open3.capture2(*args)
-  raise("Failed to execute: #{args.join(' ')}") unless status.success?
+  raise("Failed to execute: #{args.join(" ")}") unless status.success?
 
   stdout
 end
@@ -174,10 +174,10 @@ def ask(question, default: nil, echo: true)
   prompt << "[#{default}] " unless default.nil?
   print prompt
   answer = if echo
-             $stdin.gets.chomp
-           else
-             $stdin.noecho(&:gets).tap { $stdout.print "\n" }.chomp
-           end
+    $stdin.gets.chomp
+  else
+    $stdin.noecho(&:gets).tap { $stdout.print "\n" }.chomp
+  end
   answer.to_s.strip.empty? ? default : answer
 end
 
@@ -235,7 +235,7 @@ def reindent_module(path)
 
   contents.sub!(namespace_mod, namespace_mod.split("::").last)
   namespace_mod.split("::")[0...-1].reverse_each do |mod|
-    contents = "module #{mod}\n#{contents.gsub(/^/, '  ')}end\n"
+    contents = "module #{mod}\n#{contents.gsub(/^/, "  ")}end\n"
   end
 
   IO.write(path, contents)
@@ -256,7 +256,7 @@ def create_labels(client, github_repo, *labels)
     client.add_label(github_repo, name, color, description)
   end
 
-  puts "Created labels: #{labels.map(&:first).join(', ')}"
+  puts "Created labels: #{labels.map(&:first).join(", ")}"
 end
 
 class GithubClient
@@ -284,7 +284,7 @@ class GithubClient
   def auth_options
     return {} if otp_token.nil?
 
-    { headers: { "X-GitHub-OTP" => otp_token } }
+    {headers: {"X-GitHub-OTP" => otp_token}}
   end
 end
 

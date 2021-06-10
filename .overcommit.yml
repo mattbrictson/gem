@@ -21,7 +21,7 @@ PreCommit:
   RuboCop:
     enabled: true
     required_executable: bundle
-    command: ["bundle", "exec", "rubocop"]
+    command: ["bundle", "exec", "standardrb"]
     on_warn: fail
 
   YamlSyntax:
