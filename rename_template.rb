@@ -163,9 +163,9 @@ def sh!(*args)
 end
 
 def remove_line(file, pattern)
-  text = IO.read(file)
+  text = File.read(file)
   text = text.lines.filter.grep_v(pattern).join
-  IO.write(file, text)
+  File.write(file, text)
   git "add", file
 end
 
@@ -203,7 +203,7 @@ def read_git_data
 end
 
 def replace_in_file(path, replacements)
-  contents = IO.read(path)
+  contents = File.read(path)
   replacements.each do |regexp, text|
     contents.gsub!(regexp) do |match|
       next text if Regexp.last_match(1).nil?
@@ -213,7 +213,7 @@ def replace_in_file(path, replacements)
     end
   end
 
-  IO.write(path, contents)
+  File.write(path, contents)
   git "add", path
 end
 
@@ -229,7 +229,7 @@ def as_module(gem_name)
 end
 
 def reindent_module(path)
-  contents = IO.read(path)
+  contents = File.read(path)
   namespace_mod = contents[/(?:module|class) (\S+)/, 1]
   return unless namespace_mod.include?("::")
 
@@ -238,7 +238,7 @@ def reindent_module(path)
     contents = "module #{mod}\n#{contents.gsub(/^/, '  ')}end\n"
   end
 
-  IO.write(path, contents)
+  File.write(path, contents)
   git "add", path
 end
 
