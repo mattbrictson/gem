@@ -6,6 +6,8 @@ This is a GitHub template for creating Ruby gems. Press [**Use this template**](
 $ ruby rename_template.rb
 ```
 
+Note that to get the full benefits of the script, you will need the [gh](https://github.com/cli/cli) command installed.
+
 This template is based on `bundle gem` with some notable improvements:
 
 - Circle CI configuration

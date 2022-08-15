@@ -4,11 +4,7 @@ require "bundler/inline"
 require "fileutils"
 require "io/console"
 require "open3"
-
-gemfile do
-  source "https://rubygems.org"
-  gem "octokit", "~> 4.14"
-end
+require "shellwords"
 
 def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   assert_git_repo!
@@ -21,25 +17,19 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   github_repo = ask("GitHub repository?", default: git_meta[:origin_repo_path])
   exe = ask_yes_or_no("Include an executable (CLI) in this gem?", default: "N")
 
-  if ask_yes_or_no("Create GitHub labels?", default: "Y")
-    puts
-    puts "I need to ask for your GitHub credentials in order to create labels."
-    puts "Don't worry, your GitHub credentials will NOT be saved."
-    puts
-    login = ask("GitHub username?", default: github_repo.split("/").first)
-    password = ask("GitHub password?", echo: false)
-    client = authenticate_github(login, password)
-    create_labels(
-      client,
-      github_repo,
-      ["automerge", "fbca04", "Automatically merge PR once all required checks pass"],
-      ["⚠️ Breaking", "d12d1b", "Introduces a backwards-incompatible change"],
-      ["🐛 Bug Fix", "c0fc80", "Fixes a bug"],
-      ["📚 Docs", "bfdadc", "Improves documentation"],
-      ["✨ Feature", "ba1ecc", "Adds a new feature"],
-      ["🏠 Housekeeping", "ccccff", "Non-user facing cleanup and maintenance"]
-    )
-  end
+  created_labels = \
+    if gh_present?
+      puts
+      puts "I would like to use the `gh` executable to create labels in your repo."
+      puts "These labels will be used to generate nice-looking release notes."
+      puts
+      if ask_yes_or_no("Create GitHub labels using `gh`?", default: "Y")
+        create_labels(github_repo)
+        true
+      end
+    end
+
+  replace_in_file(".github/dependabot.yml", /\s+labels:\n\s+-.*$/ => "") unless created_labels
 
   git "mv", ".github/workflows/push.yml.dist", ".github/workflows/push.yml"
 
@@ -242,50 +232,14 @@ def reindent_module(path)
   git "add", path
 end
 
-def authenticate_github(login, password)
-  octokit = Octokit::Client.new(login: login, password: password, netrc: false)
-  octokit.user
-  GithubClient.new(octokit)
-rescue Octokit::OneTimePasswordRequired
-  token = ask("2FA token?")
-  GithubClient.new(octokit, otp_token: token)
+def gh_present?
+  system "gh label clone -h > /dev/null 2>&1"
+rescue StandardError
+  false
 end
 
-def create_labels(client, github_repo, *labels)
-  labels.each do |name, color, description|
-    client.add_label(github_repo, name, color, description)
-  end
-
-  puts "Created labels: #{labels.map(&:first).join(', ')}"
-end
-
-class GithubClient
-  def initialize(octokit, otp_token: nil)
-    @octokit = octokit
-    @otp_token = otp_token
-  end
-
-  def add_label(repo, name, color, description)
-    octokit.add_label(
-      repo,
-      name,
-      color,
-      auth_options.merge(
-        description: description,
-        accept: "application/vnd.github.symmetra-preview+json"
-      )
-    )
-  end
-
-  private
-
-  attr_reader :octokit, :otp_token
-
-  def auth_options
-    return {} if otp_token.nil?
-
-    { headers: { "X-GitHub-OTP" => otp_token } }
-  end
+def create_labels(github_repo)
+  system "gh label clone mattbrictson/gem --repo #{github_repo.shellescape}"
 end
 
 main if $PROGRAM_NAME == __FILE__
