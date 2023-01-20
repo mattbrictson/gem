@@ -31,7 +31,6 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 
   replace_in_file(".github/dependabot.yml", /\s+labels:\n\s+-.*$/ => "") unless created_labels
 
-  git "mv", ".github/workflows/ci.yml.dist", ".github/workflows/ci.yml"
   git "mv", ".github/workflows/release-drafter.yml.dist", ".github/workflows/release-drafter.yml"
 
   FileUtils.mkdir_p "lib/#{as_path(gem_name)}"
