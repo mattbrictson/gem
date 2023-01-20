@@ -64,6 +64,7 @@ namespace :bump do
     replace_in_file ".rubocop.yml", /TargetRubyVersion: (.*)/ => lowest_minor
     replace_in_file ".semaphore/semaphore.yml", /SEM_RUBY:-([\d.]+)/ => latest
     replace_in_file ".semaphore/semaphore.yml", /values: (\[.+\])/ => latest_patches.inspect
+    replace_in_file ".github/workflows/ci.yml", /ruby-version: "([\d.]+)"/ => latest
     replace_in_file ".github/workflows/ci.yml", /ruby: (\[.+\])/ => latest_patches.inspect
   end
 
