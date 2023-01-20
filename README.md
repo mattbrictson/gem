@@ -10,7 +10,7 @@ Note that to get the full benefits of the script, you will need the [gh](https:/
 
 This template is based on `bundle gem` with some notable improvements:
 
-- Circle CI configuration
+- GitHub Actions and Semaphore CI configuration
 - Minitest, with minitest-reporters for nicely formatted test output
 - Rubocop with a good set of configuration
 - [release-drafter](https://github.com/apps/release-drafter) GitHub Action for automating release notes
@@ -24,7 +24,7 @@ This template is based on `bundle gem` with some notable improvements:
 # example
 
 [![Gem Version](https://badge.fury.io/rb/replace_with_gem_name.svg)](https://rubygems.org/gems/replace_with_gem_name)
-[![Circle](https://circleci.com/gh/mattbrictson/gem/tree/main.svg?style=shield)](https://app.circleci.com/pipelines/github/mattbrictson/gem?branch=main)
+[![CI](https://github.com/mattbrictson/gem/actions/workflows/ci.yml/badge.svg)](https://github.com/mattbrictson/gem/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/mattbrictson/gem/badges/gpa.svg)](https://codeclimate.com/github/mattbrictson/gem)
 
 TODO: Description of this gem goes here.
