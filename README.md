@@ -13,6 +13,7 @@ This template is based on `bundle gem` with some notable improvements:
 - GitHub Actions configuration
 - Minitest, with minitest-reporters for nicely formatted test output
 - Rubocop with a good set of configuration
+- CLI scaffolding, built on top of Thor (optional)
 - [release-drafter](https://github.com/apps/release-drafter) GitHub Action for automating release notes
 - A `rake bump` task to keep your Ruby and Bundler dependencies up to date
 - A nice README with badges ready to go (see below)
