@@ -8,7 +8,7 @@ module Example
 
     desc "version", "Display example version", hide: true
     def version
-      say "nextgen/#{VERSION} #{RUBY_DESCRIPTION}"
+      say "example/#{VERSION} #{RUBY_DESCRIPTION}"
     end
   end
 end
