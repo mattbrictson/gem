@@ -1,5 +1,18 @@
 module Example
   module ThorExt
+    # Configures Thor to behave more like a typical CLI, with better help and error handling.
+    #
+    # - Passing -h or --help to a command will show help for that command.
+    # - Unrecognized options will be treated as errors.
+    # - Error messages will be printed in red to stderr, without stack trace.
+    # - Errors will cause Thor to exit with a non-zero status.
+    #
+    # To take advantage of this behavior, your CLI should subclass Thor and extend this module.
+    #
+    # class CLI < Thor
+    #   extend ThorExt::Start
+    # end
+    #
     module Start
       def self.extended(base)
         super
