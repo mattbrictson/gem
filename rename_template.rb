@@ -48,12 +48,19 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     ensure_executable "exe/#{gem_name}"
 
     replace_in_file "lib/example/cli.rb",
+                    "example" => as_path(gem_name),
                     "Example" => as_module(gem_name)
 
     git "mv", "lib/example/cli.rb", "lib/#{as_path(gem_name)}/cli.rb"
     reindent_module "lib/#{as_path(gem_name)}/cli.rb"
+
+    replace_in_file "lib/example/thor_ext.rb", "Example" => as_module(gem_name)
+    git "mv", "lib/example/thor_ext.rb", "lib/#{as_path(gem_name)}/thor_ext.rb"
+    reindent_module "lib/#{as_path(gem_name)}/thor_ext.rb"
   else
-    git "rm", "exe/example", "lib/example/cli.rb"
+    git "rm", "exe/example", "lib/example/cli.rb", "lib/example/thor_ext.rb"
+    replace_in_file "example.gemspec", 'spec.add_dependency "thor"' => '# spec.add_dependency "thor"'
+    remove_line "lib/example.rb", /autoload :ThorExt/
     remove_line "lib/example.rb", /autoload :CLI/
   end
 
@@ -113,6 +120,7 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
                   'require "example"' => %Q(require "#{as_path(gem_name)}")
 
   git "rm", "rename_template.rb"
+  Dir.unlink("lib/example") if Dir.empty?("lib/example")
 
   puts <<~MESSAGE
 
