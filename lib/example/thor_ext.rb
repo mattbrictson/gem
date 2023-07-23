@@ -3,15 +3,24 @@ module Example
     # Configures Thor to behave more like a typical CLI, with better help and error handling.
     #
     # - Passing -h or --help to a command will show help for that command.
-    # - Unrecognized options will be treated as errors.
+    # - Unrecognized options will be treated as errors (instead of being silently ignored).
     # - Error messages will be printed in red to stderr, without stack trace.
+    # - Full stack traces can be enabled by setting the VERBOSE environment variable.
     # - Errors will cause Thor to exit with a non-zero status.
     #
     # To take advantage of this behavior, your CLI should subclass Thor and extend this module.
     #
-    # class CLI < Thor
-    #   extend ThorExt::Start
-    # end
+    #   class CLI < Thor
+    #     extend ThorExt::Start
+    #   end
+    #
+    # Start your CLI with:
+    #
+    #   CLI.start
+    #
+    # In tests, prevent Kernel.exit from being called when an error occurs, like this:
+    #
+    #   CLI.start(args, exit_on_failure: false)
     #
     module Start
       def self.extended(base)
