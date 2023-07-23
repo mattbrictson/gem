@@ -46,17 +46,14 @@ module Example
       end
 
       def handle_exception_on_start(error, config)
-        case error
-        when Errno::EPIPE
-          # Ignore
-        when Thor::Error, Nextgen::Error
-          raise unless config.fetch(:exit_on_failure, true)
+        return if error.is_a?(Errno::EPIPE)
+        raise if ENV["VERBOSE"] || !config.fetch(:exit_on_failure, true)
 
-          config[:shell]&.say_error(error.message, :red)
-          exit(false)
-        else
-          raise
-        end
+        message = error.message.to_s
+        message.prepend("[#{error.class}] ") if message.empty? || !error.is_a?(Thor::Error)
+
+        config[:shell]&.say_error(message, :red)
+        exit(false)
       end
     end
   end
