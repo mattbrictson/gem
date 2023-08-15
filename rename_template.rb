@@ -190,10 +190,10 @@ def read_git_data
   return {} unless git("remote", "-v").match?(/^origin/)
 
   origin_url = git("remote", "get-url", "origin").chomp
-  origin_repo_path = origin_url[%r{[:/]([^/]+/[^/]+)(?:\.git)$}, 1]
+  origin_repo_path = origin_url[%r{[:/]([^/]+/[^/]+?)(?:\.git)?$}, 1]
 
   {
-    origin_repo_name: origin_repo_path.split("/").last,
+    origin_repo_name: origin_repo_path&.split("/")&.last,
     origin_repo_path: origin_repo_path,
     user_email: git("config", "user.email").chomp,
     user_name: git("config", "user.name").chomp
