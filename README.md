@@ -3,7 +3,7 @@
 This is a GitHub template for creating Ruby gems. Press [**Use this template**](https://github.com/mattbrictson/gem/generate) to generate a project from this template. In the generated project, run this script to rename the gem to meet your needs:
 
 ```
-$ ruby rename_template.rb
+ruby rename_template.rb
 ```
 
 Note that to get the full benefits of the script, you will need the [gh](https://github.com/cli/cli) command installed.
@@ -42,7 +42,7 @@ TODO: Description of this gem goes here.
 ## Quick start
 
 ```
-$ gem install example
+gem install example
 ```
 
 ```ruby
