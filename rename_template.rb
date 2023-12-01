@@ -17,7 +17,7 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   github_repo = ask("GitHub repository?", default: git_meta[:origin_repo_path])
   exe = ask_yes_or_no("Include an executable (CLI) in this gem?", default: "N")
 
-  created_labels = \
+  created_labels =
     if gh_present?
       puts
       puts "I would like to use the `gh` executable to create labels in your repo."
