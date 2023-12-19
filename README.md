@@ -11,7 +11,7 @@ Note that to get the full benefits of the script, you will need the [gh](https:/
 This template is based on `bundle gem` with some notable improvements:
 
 - GitHub Actions configuration
-- Minitest, with minitest-reporters for nicely formatted test output
+- Minitest, with minitest-rg for nicely formatted test output
 - Rubocop with a good set of configuration
 - CLI scaffolding, built on top of Thor (optional; for more background, read [Fixing Thor’s CLI Quirks](https://mattbrictson.com/blog/fixing-thor-cli-behavior))
 - [release-drafter](https://github.com/apps/release-drafter) GitHub Action for automating release notes
