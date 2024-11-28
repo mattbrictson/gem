@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Example
   module ThorExt
     # Configures Thor to behave more like a typical CLI, with better help and error handling.
