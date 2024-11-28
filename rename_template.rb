@@ -116,6 +116,7 @@ def main # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
                   "Example" => as_module(gem_name)
 
   git "mv", "test/example_test.rb", "test/#{as_path(gem_name)}_test.rb"
+  reindent_module "test/#{as_path(gem_name)}_test.rb"
 
   replace_in_file "test/test_helper.rb",
                   'require "example"' => %Q(require "#{as_path(gem_name)}")
