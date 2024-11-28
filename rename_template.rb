@@ -228,16 +228,16 @@ def as_module(gem_name)
 end
 
 def reindent_module(path)
-  contents = File.read(path)
-  namespace_mod = contents[/(?:module|class) (\S+)/, 1]
-  return unless namespace_mod.include?("::")
+  preamble, contents = File.read(path).match(/\A(.*?)(^(?:module|class).*\z)/m)&.captures
+  namespace_mod = contents && contents[/(?:module|class) (\S+)/, 1]
+  return unless namespace_mod&.include?("::")
 
   contents.sub!(namespace_mod, namespace_mod.split("::").last)
   namespace_mod.split("::")[0...-1].reverse_each do |mod|
     contents = "module #{mod}\n#{contents.gsub(/^/, '  ')}end\n"
   end
 
-  File.write(path, contents)
+  File.write(path, [preamble, contents].join)
   git "add", path
 end
 
