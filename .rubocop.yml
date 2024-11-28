@@ -94,9 +94,6 @@ Style/DoubleNegation:
 Style/EmptyMethod:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 Style/NumericPredicate:
   Enabled: false
 
