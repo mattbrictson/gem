@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-minitest
   - rubocop-packaging
   - rubocop-performance
@@ -74,6 +74,9 @@ Minitest/EmptyLineBeforeAssertionMethods:
   Enabled: false
 
 Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/PredicateMethod:
   Enabled: false
 
 Naming/VariableNumber:
