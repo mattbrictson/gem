@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 gemspec
 
+gem "irb"
 gem "minitest", "~> 5.11"
 gem "minitest-rg", "~> 5.3"
 gem "rake", "~> 13.0"
