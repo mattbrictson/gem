@@ -143,8 +143,8 @@ def assert_git_repo!
   exit(1)
 end
 
-def git(*args)
-  sh! "git", *args
+def git(*)
+  sh!("git", *)
 end
 
 def ensure_executable(path)
