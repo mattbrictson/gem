@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = ""
   spec.homepage = "https://github.com/mattbrictson/gem"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 3.2"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/mattbrictson/gem/issues",
